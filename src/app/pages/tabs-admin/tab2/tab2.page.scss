@@ -1,0 +1,59 @@
+.events li {
+    display: flex;
+}
+
+//Color de las letras del lado izquierdo
+.events time {
+    position: relative;
+    color: #ccc;
+    padding: 0 1.5em;
+}
+
+//Color de los puntitos
+.events time::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 0;
+    transform: translateX(50%);
+    border-radius: 50%;
+    background: #10D77A;
+    border: 1px #fff solid;
+    width: .8em;
+    height: .8em;
+}
+
+.events span {
+    padding: 0 1.5em 1.5em 1.5em;
+    position: relative;
+}
+
+//Orientacion de el texto y color de las lineas
+.events span::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    height: 100%;
+    border-left: 1px #10D77A solid;
+}
+
+//Separa el nombre del restaurante con la hora de lleguada
+.events strong {
+    display: block;
+    font-weight: bolder;
+}
+
+.events {
+    margin: 1em;
+    width: 50%;
+}
+
+//Al parecer esto no cabia en nada la estructura del arbol
+.events,
+.events *::before,
+.events *::after {
+    box-sizing: border-box;
+    font-family: arial;
+}

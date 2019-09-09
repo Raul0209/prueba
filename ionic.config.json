@@ -1,0 +1,8 @@
+{
+  "name": "nodejs",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "588aaad2"
+}

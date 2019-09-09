@@ -1,0 +1,138 @@
+<ion-content scroll-y='true' scroll-x='true' class="backGroundColor">
+
+
+    <ion-slides class="mainSlide" #slidePrincipal>
+
+        <ion-slide>
+
+            <form (ngSubmit)='login(fLogin)' #fLogin='ngForm'>
+                <ion-grid fixed>
+
+                    <ion-row>
+                        <ion-col>
+                            <img src="/assets/avatars/av-1.png">
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label position='floating'>Email:</ion-label>
+                                    <ion-input pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" name="email" type="email" required [(ngModel)]='loginUserModel.EMAIL'></ion-input>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position='floating'>Password:</ion-label>
+                                    <ion-input minlength="6" name="password" type="password" required [(ngModel)]='loginUserModel.PASSWORD'></ion-input>
+                                </ion-item>
+
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <ion-button [disabled]='fLogin.invalid' type="submit" color="primary" shape="round">
+                                Login
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col>
+                            <a>
+                                <ion-label class="textSize" color='secondary'>Olvidaste tu contraseña?</ion-label>
+                            </a>
+                        </ion-col>
+                    </ion-row>
+
+
+                </ion-grid>
+            </form>
+        </ion-slide>
+
+
+        <ion-slide>
+            <ion-content>
+                <ion-infinite-scroll>
+                    <ion-grid fixed>
+
+                        <ion-row>
+                            <ion-col>
+                                <h3>Registrate</h3>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row>
+                            <ion-col>
+                                <ion-img src="/assets/avatars/logo.png"></ion-img>
+                            </ion-col>
+                        </ion-row>
+
+                        <form (ngSubmit)='register(fRegister)' #fRegister='ngForm'>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-list>
+                                        <ion-list>
+
+                                            <ion-item>
+                                                <ion-label>Email:</ion-label>
+                                                <ion-input id="emailInput" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder='ejemplo@email.com' [(ngModel)]='userModel.EMAIL' name="email" type="email" required></ion-input>
+                                            </ion-item>
+
+                                            <ion-item>
+                                                <ion-label>Contraseña:</ion-label>
+                                                <ion-input minlength="6" placeholder='Debe contener 6 caracteres.' [(ngModel)]='userModel.PASSWORD' name="password" type="password" required></ion-input>
+                                            </ion-item>
+
+                                            <ion-item>
+                                                <ion-label position='floating'>Nombre:</ion-label>
+                                                <ion-input [(ngModel)]='userModel.NOMBRE' name="name" type="text" required></ion-input>
+                                            </ion-item>
+
+                                        </ion-list>
+                                    </ion-list>
+                                </ion-col>
+                            </ion-row>
+
+                            <ion-row>
+                                <ion-col>
+                                    <ion-button [disabled]='fRegister.invalid' type="submit" color="primary" shape="round">
+                                        Crear usuario
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
+
+                        </form>
+                    </ion-grid>
+                </ion-infinite-scroll>
+            </ion-content>
+        </ion-slide>
+
+
+    </ion-slides>
+
+
+
+</ion-content>
+
+
+<ion-footer no-border>
+    <ion-toolbar>
+        <ion-row>
+            <ion-col>
+                <ion-button shape="round" expand="full" size="small" fill="outline" color="secondary" (click)='viewLogin(fRegister)'>
+                    Ingresar
+                </ion-button>
+            </ion-col>
+
+            <ion-col>
+                <ion-button shape="round" expand="full" size="small" fill="outline" color="secondary" (click)='viewRegister(fLogin)'>
+                    Registrarme
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

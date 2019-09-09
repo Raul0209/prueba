@@ -1,0 +1,19 @@
+<ion-menu side="start" menuId="first" contentId='mainMenu'>
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title>Menu Principal</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list>
+
+            <ion-menu-toggle *ngFor='let m of menu'>
+                <ion-item detail (click)='openModal(m.action)'>
+                    <ion-icon slot='start' [name]='m.icon'> </ion-icon>
+                    <ion-label>{{m.name}}</ion-label>
+                </ion-item>
+            </ion-menu-toggle>
+
+        </ion-list>
+    </ion-content>
+</ion-menu>

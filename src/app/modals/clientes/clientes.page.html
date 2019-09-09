@@ -1,0 +1,193 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-buttons slot='start'>
+            <ion-button (click)='closeModal()'>
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot='end'>
+            <ion-button (click)='nuevoCliente()' *ngIf='!agregando && !editando' color='primary'>
+                <ion-icon name='add'>
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title>Gestionar Clientes</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-progress-bar *ngIf='cargando' type="indeterminate" reversed='true'></ion-progress-bar>
+    <ion-searchbar debounce='600' (ionChange)="buscar($event)" mode="ios" animated *ngIf='!editando && !agregando'></ion-searchbar>
+
+
+
+    <ion-list *ngIf='!agregando && !editando'>
+        <ion-item-sliding *ngFor='let c of clientes | filtro:textoBuscar:"NOMBRE" '>
+            <ion-item>
+                <ion-thumbnail style="margin-right: 10px">
+                    <ion-img style="border-radius: 100%" src="/assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+                </ion-thumbnail>
+                <ion-label>
+                    <h2>{{c.NOMBRE}}</h2>
+                    <p>{{c.TELEFONO}}</p>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option (click)="editarCliente(c.NOMBRE, c.DIRECCION, c.TELEFONO, c.LATITUD, c.LONGITUD, c.DESCATALOGADO, c.CODCONTABILIDAD, c.CODCLIENTE)">Editar Cliente</ion-item-option>
+                <ion-item-option (click)="eliminar(c.CODCLIENTE)" color='danger'>Eliminar Cliente</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+
+
+    <form (ngSubmit)='agregar(formAddCliente)' #formAddCliente='ngForm' *ngIf='agregando'>
+
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-list-header>Nuevo Cliente</ion-list-header>
+
+                    <ion-item>
+                        <ion-label position='floating'>Nombre:</ion-label>
+                        <ion-input id="nombre" [(ngModel)]='cliente.NOMBRE' name="nombre" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Direccion:</ion-label>
+                        <ion-input [(ngModel)]='cliente.DIRECCION' name="direccion" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Telefono:</ion-label>
+                        <ion-input [(ngModel)]='cliente.TELEFONO' name="telefono" type="number" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Latitud:</ion-label>
+                        <ion-input [(ngModel)]='cliente.LATITUD' name="latitud" type="number" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Longitud:</ion-label>
+                        <ion-input [(ngModel)]='cliente.LONGITUD' name="longitud" type="number" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Codigo Contabilidad:</ion-label>
+                        <ion-input [(ngModel)]='cliente.CODCONTABILIDAD' name="codcontabilidad" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-list>
+                        <ion-radio-group>
+                            <ion-list-header>
+                                <ion-label>Descatalogado:</ion-label>
+                            </ion-list-header>
+
+                            <ion-item>
+                                <ion-label>Si</ion-label>
+                                <ion-radio [(ngModel)]='cliente.DESCATALOGADO' name='descatalogadoSi' slot="start" value="1"></ion-radio>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label>No</ion-label>
+                                <ion-radio [(ngModel)]='cliente.DESCATALOGADO' name='descatalogadoNo' slot="start" value="0"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </ion-list>
+
+                    <!-- <ion-label position='floating'>Descatalogado:</ion-label>
+                        <ion-input [(ngModel)]='cliente.DESCATALOGADO' name="descatalogado" type="number" required></ion-input> -->
+
+
+                    <ion-row class="top-20">
+                        <ion-col>
+                            <ion-button expand=full shape=round color='primary' type='submit' [disabled]='!formAddCliente.valid'>Guardar</ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button expand=full shape=round color='danger' (click)='cancelar(formAddCliente)'>Cancelar</ion-button>
+                        </ion-col>
+                    </ion-row>
+
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </form>
+
+    <form (ngSubmit)='editar(formUpdateCliente)' #formUpdateCliente='ngForm' *ngIf='editando'>
+
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-list-header>Editando Cliente</ion-list-header>
+
+                    <ion-item>
+                        <ion-label position='floating'>Nombre:</ion-label>
+                        <ion-input id="nombre" [(ngModel)]='cliente.NOMBRE' name="nombre" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Direccion:</ion-label>
+                        <ion-input [(ngModel)]='cliente.DIRECCION' name="direccion" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Telefono:</ion-label>
+                        <ion-input [(ngModel)]='cliente.TELEFONO' name="telefono" type="number" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Latitud:</ion-label>
+                        <ion-input [(ngModel)]='cliente.LATITUD' name="latitud" type="number" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Longitud:</ion-label>
+                        <ion-input [(ngModel)]='cliente.LONGITUD' name="longitud" type="number" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position='floating'>Codigo Contabilidad:</ion-label>
+                        <ion-input [(ngModel)]='cliente.CODCONTABILIDAD' name="codcontabilidad" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-list>
+                        <ion-radio-group>
+                            <ion-list-header>
+                                <ion-label>Descatalogado:</ion-label>
+                            </ion-list-header>
+
+                            <ion-item>
+                                <ion-label>Si</ion-label>
+                                <ion-radio [(ngModel)]='cliente.DESCATALOGADO' name='descatalogadoSi' slot="start" value="1"></ion-radio>
+                            </ion-item>
+
+                            <ion-item>
+                                <ion-label>No</ion-label>
+                                <ion-radio [(ngModel)]='cliente.DESCATALOGADO' name='descatalogadoNo' slot="start" value="0"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </ion-list>
+
+
+                    <ion-row class="top-20">
+                        <ion-col>
+                            <ion-button expand=full shape=round color='primary' type='submit' [disabled]='!formUpdateCliente.valid'>Actualizar</ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button expand=full shape=round color='danger' (click)='cancelar(formUpdateCliente)'>Cancelar</ion-button>
+                        </ion-col>
+                    </ion-row>
+
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+    </form>
+
+</ion-content>

@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-toolbar>
+
+        <ion-buttons slot='start'>
+            <ion-button (click)='closeModal()'>
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot='end'>
+            <ion-button color='primary'>
+                <ion-icon name='add'>
+                </ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title>Gestionar Rutas</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <!-- AGREGANDO NUEVA RUTA -->
+
+    <ion-list>
+
+        <ion-item>
+            <ion-label>Codigo de Ruta</ion-label>
+            <ion-select>
+                <ion-select-option value="f">C1</ion-select-option>
+                <ion-select-option value="m">C2</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Dia de la Semana</ion-label>
+            <ion-select>
+                <ion-select-option value="lu">Lunes</ion-select-option>
+                <ion-select-option value="ma">Martes</ion-select-option>
+                <ion-select-option value="mier">Miercoles</ion-select-option>
+                <ion-select-option value="juev">Jueves</ion-select-option>
+                <ion-select-option value="vier">Viernes</ion-select-option>
+                <ion-select-option value="sab">Sabado</ion-select-option>
+                <ion-select-option value="domin">Domingo</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Toggle</ion-label>
+            <ion-toggle slot="end"></ion-toggle>
+        </ion-item>
+        <ion-item>
+            <ion-label>Radio</ion-label>
+            <ion-radio slot="end"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>Checkbox</ion-label>
+            <ion-checkbox slot="start"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+
+    <!-- RUTAS ALMACENADAS -->
+    <!-- <ion-list>
+        <ion-item-sliding>
+            <ion-item>
+                <ion-thumbnail style="margin-right: 10px">
+                    <ion-img style="border-radius: 100%" src="../assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+                </ion-thumbnail>
+                <ion-label>
+                    <h2>C2</h2>
+                    <p>Ruta de Prueba</p>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option>Editar Ruta</ion-item-option>
+                <ion-item-option (click)="eliminar(c.CODCLIENTE)" color='danger'>Eliminar Ruta</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list> -->
+
+</ion-content>

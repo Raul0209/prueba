@@ -1,0 +1,167 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot='start'>
+            <ion-button *ngIf='!gestionando && !viendo && !creando' (click)='closeModal()'>
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Gestionar Accesos</ion-title>
+    </ion-toolbar>
+    <ion-searchbar debounce='600' (ionChange)="buscar($event)" mode="ios" animated *ngIf='!gestionando && !viendo && !creando'></ion-searchbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item-group *ngIf='!gestionando && !viendo && !creando'>
+            <ion-item-divider>
+                <ion-label>Usuarios con Acceso</ion-label>
+            </ion-item-divider>
+
+            <ion-list>
+                <ion-item-sliding *ngFor='let u of usuariosConAcceso | filtro:textoBuscar:"EMAIL"'>
+                    <ion-item>
+                        <ion-thumbnail style="margin-right: 10px">
+                            <ion-img style="border-radius: 100%" src="../assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+                        </ion-thumbnail>
+                        <ion-label>
+                            <h2>{{u.EMAIL}}</h2>
+                            <p>{{u.NOMBRE}}</p>
+                        </ion-label>
+                    </ion-item>
+
+                    <ion-item-options side="end">
+                        <ion-item-option (click)="verAcceso(u.EMAIL, u.CODUSUARIO)">Ver</ion-item-option>
+                        <ion-item-option (click)="gestionarAcceso(u.EMAIL, u.CODACCESO)">Editar Acceso</ion-item-option>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+
+            <ion-item-divider>
+                <ion-label>Usuarios sin Acceso</ion-label>
+            </ion-item-divider>
+
+            <ion-list>
+                <ion-item-sliding *ngFor='let u of usuariosSinAcceso | filtro:textoBuscar:"EMAIL"'>
+                    <ion-item>
+                        <ion-thumbnail style="margin-right: 10px">
+                            <ion-img style="border-radius: 100%" src="../assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+                        </ion-thumbnail>
+                        <ion-label>
+                            <h2>{{u.EMAIL}}</h2>
+                            <p>{{u.NOMBRE}}</p>
+                        </ion-label>
+                    </ion-item>
+
+                    <ion-item-options side="end">
+                        <ion-item-option (click)='creandoAcceso(u.EMAIL, u.CODUSUARIO)'>Añadir Acceso</ion-item-option>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+        </ion-item-group>
+    </ion-list>
+
+
+    <!-- Creando ACCESO -->
+    <ion-list *ngIf='creando'>
+        <ion-item>
+            <ion-thumbnail style="margin-right: 10px">
+                <ion-img style="border-radius: 100%" src="../assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+            </ion-thumbnail>
+            <ion-label color='primary'>Estas gestionando:
+                <h2>{{valor}}</h2>
+            </ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Cliente</ion-label>
+            <ion-select interface="popover" [(ngModel)]='acceso.CODCLIENTE'>
+                <ion-select-option value={{c.CODCLIENTE}} *ngFor='let c of clientes'>{{c.NOMBRE}}</ion-select-option>
+            </ion-select>
+
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Rol</ion-label>
+            <ion-select interface="popover" [(ngModel)]='acceso.CODROL'>
+                <ion-select-option value={{r.CODROL}} *ngFor='let r of roles'>{{r.NOMBRE}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-row class="top-20">
+            <ion-col>
+                <ion-button expand=full shape=round color='primary' (click)='nuevoAcceso()'>Guardar</ion-button>
+            </ion-col>
+            <ion-col>
+                <ion-button expand=full shape=round color='danger' (click)='desactivarCreando()'>Cancelar</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+
+
+    <!-- ACTUALIZANDO ACCESO -->
+    <ion-list *ngIf='gestionando'>
+        <ion-item>
+            <ion-thumbnail style="margin-right: 10px">
+                <ion-img style="border-radius: 100%" src="../assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+            </ion-thumbnail>
+            <ion-label color='primary'>Estas gestionando:
+                <h2>{{valor}}</h2>
+            </ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Cliente</ion-label>
+            <ion-select interface="popover" [(ngModel)]='acceso.CODCLIENTE'>
+                <ion-select-option value={{c.CODCLIENTE}} *ngFor='let c of clientes'>{{c.NOMBRE}}</ion-select-option>
+            </ion-select>
+
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Rol</ion-label>
+            <ion-select interface="popover" [(ngModel)]='acceso.CODROL'>
+                <ion-select-option value={{r.CODROL}} *ngFor='let r of roles'>{{r.NOMBRE}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-row class="top-20">
+            <ion-col>
+                <ion-button expand=full shape=round color='primary' (click)='updateAcces()'>Guardar</ion-button>
+            </ion-col>
+            <ion-col>
+                <ion-button expand=full shape=round color='danger' (click)='desactivarActualizando()'>Cancelar</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-list>
+
+    <!-- VER ACCESO -->
+    <ion-list *ngIf='viendo'>
+        <ion-item>
+            <ion-thumbnail style="margin-right: 10px">
+                <ion-img style="border-radius: 100%" src="../assets/avatars/av-1.png" class="img-avatar"> </ion-img>
+            </ion-thumbnail>
+            <ion-label color='primary'>Usuario:
+                <h2>{{valor}}</h2>
+            </ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Cliente:</ion-label>
+            <ion-label>{{predefinido2}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Rol</ion-label>
+            <ion-label>{{predefinido}}</ion-label>
+        </ion-item>
+
+        <ion-row class="top-20">
+            <ion-col>
+                <ion-button expand=full shape=round color='primary' (click)='desactivarViendo()'>Volver</ion-button>
+            </ion-col>
+        </ion-row>
+
+    </ion-list>
+
+</ion-content>
